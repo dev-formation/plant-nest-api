@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Plant {
@@ -19,4 +26,11 @@ export class Plant {
 
   @Column({ length: 255 })
   image: string;
+
+  @Column({ nullable: false, type: 'int' })
+  user_id: number;
+
+  @ManyToOne(() => User, (user) => user.plants)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

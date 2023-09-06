@@ -5,6 +5,8 @@ import { PlantsModule } from './plants/plants.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Plant } from './plants/entities/plant.entity';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -17,9 +19,10 @@ import { Plant } from './plants/entities/plant.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [Plant],
+      entities: [Plant, User],
       synchronize: false,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
