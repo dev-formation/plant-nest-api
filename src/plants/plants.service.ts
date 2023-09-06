@@ -10,6 +10,7 @@ export class PlantsService {
   constructor(
     @InjectRepository(Plant) private plantsRepository: Repository<Plant>,
   ) {}
+
   async create(createPlantDto: CreatePlantDto) {
     const plant = this.plantsRepository.create(createPlantDto);
     const result = await this.plantsRepository.save(plant);
@@ -35,11 +36,17 @@ export class PlantsService {
     return result;
   }
 
+  // async remove(id: number) {
+  //   const result = await this.plantsRepository.delete({ id });
+  //   if (result.affected < 1) {
+  //     throw new NotFoundException(`Plant with id : ${id} not found`);
+  //   }
+  //   return `Plant with id : ${id} has been deleted`;
+  // }
+
   async remove(id: number) {
-    const result = await this.plantsRepository.delete({ id });
-    if (result.affected < 1) {
-      throw new NotFoundException(`Plant with id : ${id} not found`);
-    }
+    const found = await this.findOne(id);
+    await this.plantsRepository.remove(found);
     return `Plant with id : ${id} has been deleted`;
   }
 }
